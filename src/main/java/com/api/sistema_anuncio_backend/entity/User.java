@@ -1,5 +1,6 @@
 package com.api.sistema_anuncio_backend.entity;
 
+import com.api.sistema_anuncio_backend.dto.UserDto;
 import com.api.sistema_anuncio_backend.enums.UserRole;
 
 import jakarta.persistence.Entity;
@@ -24,5 +25,16 @@ public class User {
     private String lastname;
     private String phone;
     private UserRole role;
+
+    public UserDto getDto() {
+
+        UserDto userDto = new UserDto();
+        userDto.setId(id);
+        userDto.setName(name);
+        userDto.setEmail(email);
+        userDto.setRole(role);
+
+        return userDto;
+    }
 
 }
