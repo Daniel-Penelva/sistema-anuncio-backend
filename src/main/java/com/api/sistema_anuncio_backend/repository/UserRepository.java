@@ -8,4 +8,6 @@ import com.api.sistema_anuncio_backend.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findFirstByEmail(String email);
+
 }
