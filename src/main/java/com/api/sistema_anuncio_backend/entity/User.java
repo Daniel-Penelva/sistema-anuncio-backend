@@ -4,6 +4,8 @@ import com.api.sistema_anuncio_backend.dto.UserDto;
 import com.api.sistema_anuncio_backend.enums.UserRole;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +26,8 @@ public class User {
     private String name;
     private String lastname;
     private String phone;
+
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     public UserDto getDto() {
