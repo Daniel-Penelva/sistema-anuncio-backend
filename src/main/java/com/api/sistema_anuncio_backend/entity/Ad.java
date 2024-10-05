@@ -42,7 +42,7 @@ public class Ad {
 
 
     /*Este método vai facilitar a conversão da entidade Ad para AdDTO, encapsulando todos os dados relevantes do anúncio, incluindo a imagem e o nome da empresa associada.*/
-    public AdDTO getDto(){
+    public AdDTO getAdDto(){
         
         AdDTO adDTO = new AdDTO();
         adDTO.setId(id);                               // Copia o ID do anúncio

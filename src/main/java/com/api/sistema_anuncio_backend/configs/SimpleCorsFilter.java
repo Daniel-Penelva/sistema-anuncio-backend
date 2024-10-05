@@ -14,6 +14,8 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.HashMap;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -33,11 +35,19 @@ public class SimpleCorsFilter implements Filter {
      * @throws IOException on filtering.
      * @throws ServletException on filtering.
      */
+
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        Filter.super.init(filterConfig);
+    }
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
+        Map<String, String> map = new HashMap<>();
         
         String originHeader = request.getHeader("origin");
         
@@ -54,10 +64,7 @@ public class SimpleCorsFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {
-    }
-
-    @Override
     public void destroy() {
+        Filter.super.destroy();
     }
 }
