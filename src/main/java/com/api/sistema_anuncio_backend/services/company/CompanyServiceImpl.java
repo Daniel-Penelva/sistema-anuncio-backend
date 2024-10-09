@@ -42,11 +42,22 @@ public class CompanyServiceImpl implements CompanyService {
         return false;
     }
 
+    // Método que exibi os anúncios de um usuário específico ao carregar a página.
     public List<AdDTO> getAllAds(Long userId) {
         return adRepository.findAllByUserId(userId)
                 .stream()
                 .map(Ad::getAdDto)
                 .collect(Collectors.toList());
+    }
+
+    // Método que recupera os detalhes de um anúncio a partir do banco de dados com base no seu ID (adId).
+    public AdDTO getAdById(Long adId) {
+        Optional<Ad> optionalAd = adRepository.findById(adId);
+        if (optionalAd.isPresent()) {
+            return optionalAd.get().getAdDto();
+        }
+
+        return null;
     }
 
 }

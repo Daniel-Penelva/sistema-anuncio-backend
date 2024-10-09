@@ -40,4 +40,15 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.getAllAds(userId));
     }
 
+    // Este método expõe uma API para que clientes possam buscar o anúncio por ID através de uma requisição HTTP GET.
+    @GetMapping("/ad/{adId}")
+    public ResponseEntity<?> getAdById(@PathVariable Long adId) {
+        AdDTO adDTO = companyService.getAdById(adId);
+        if (adDTO != null) {
+            return ResponseEntity.ok(adDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }
