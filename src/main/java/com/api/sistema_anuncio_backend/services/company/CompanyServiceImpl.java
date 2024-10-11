@@ -60,4 +60,28 @@ public class CompanyServiceImpl implements CompanyService {
         return null;
     }
 
+
+    // Método responsável por buscar um anúncio (Ad) com base no adId passado como argumento.
+    public boolean updateAd(Long adId, AdDTO adDTO) throws IOException {
+
+        Optional<Ad> optionalAd = adRepository.findById(adId);
+
+        if (optionalAd.isPresent()) {
+            Ad ad = optionalAd.get();
+
+            ad.setServiceName(adDTO.getServiceName());
+            ad.setDescription(adDTO.getDescription());
+            ad.setPrice(adDTO.getPrice());
+
+            if (adDTO.getImg() != null) {
+                ad.setImg(adDTO.getImg().getBytes());
+            }
+
+            adRepository.save(ad);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
