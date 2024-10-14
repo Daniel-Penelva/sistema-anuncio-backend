@@ -14,5 +14,7 @@ public interface CompanyService {
     AdDTO getAdById(Long adId);
 
     boolean updateAd(Long adId, AdDTO adDTO) throws IOException;
+
+    boolean deleteAd(Long adId);
     
 }

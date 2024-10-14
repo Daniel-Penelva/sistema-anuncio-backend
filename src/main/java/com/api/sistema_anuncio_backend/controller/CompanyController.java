@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +58,17 @@ public class CompanyController {
     public ResponseEntity<?> updateAd(@PathVariable Long adId, @ModelAttribute AdDTO adDTO) throws IOException {
         
         boolean success = companyService.updateAd(adId, adDTO);
+        if (success) {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    // Este método exclui um anúncio do sistema 
+    @DeleteMapping("/ad/{adId}")
+    public ResponseEntity<?> deleteAd(@PathVariable Long adId) {
+        boolean success = companyService.deleteAd(adId);
         if (success) {
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {
