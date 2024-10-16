@@ -20,4 +20,10 @@ public class ClientServiceImpl implements ClientService {
     public List<AdDTO> getAllAds() {
         return adRepository.findAll().stream().map(Ad::getAdDto).collect(Collectors.toList());
     }
+
+    // Este método recupera uma lista de anúncio(s) da base de dados, passando o parâmetro name (nome do serviço)
+    public List<AdDTO> searchAdByName(String name) {
+        return adRepository.findAllByServiceNameContaining(name).stream().map(Ad::getAdDto)
+                .collect(Collectors.toList());
+    }
 }

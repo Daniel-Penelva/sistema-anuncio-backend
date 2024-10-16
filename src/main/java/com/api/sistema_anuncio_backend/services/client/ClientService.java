@@ -7,5 +7,7 @@ import com.api.sistema_anuncio_backend.dto.AdDTO;
 public interface ClientService {
 
     List<AdDTO> getAllAds();
+
+    List<AdDTO> searchAdByName(String name);
     
 }

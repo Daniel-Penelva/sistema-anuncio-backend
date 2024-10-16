@@ -13,4 +13,7 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
     // Método para buscar anúncio
     List<Ad> findAllByUserId(Long userId);
 
+    // Método para buscar uma lista de anúncios de acordo com nome do serviço
+    List<Ad> findAllByServiceNameContaining(String name);
+
 }
