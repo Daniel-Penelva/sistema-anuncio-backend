@@ -43,4 +43,10 @@ public class ClientController {
         }
     }
 
+    // Método lida com às requisições HTTP GET na rota /ad/{adId}, onde {adId} é o ID do anúncio que se deseja obter.
+    @GetMapping("/ad/{adId}")
+    public ResponseEntity<?> getAdDetailsByAdId(@PathVariable Long adId) {
+        return ResponseEntity.ok(clientService.getAdDetailsByAdId(adId));
+    }
+
 }

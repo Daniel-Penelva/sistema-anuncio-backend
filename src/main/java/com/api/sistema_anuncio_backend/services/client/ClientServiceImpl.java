@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.sistema_anuncio_backend.dto.AdDTO;
+import com.api.sistema_anuncio_backend.dto.AdDetailsForClientDTO;
 import com.api.sistema_anuncio_backend.dto.ReservationDTO;
 import com.api.sistema_anuncio_backend.entity.Ad;
 import com.api.sistema_anuncio_backend.entity.Reservation;
@@ -62,5 +63,15 @@ public class ClientServiceImpl implements ClientService {
             return true;
         }
         return false;
+    }
+
+    // Este método é responsável por buscar os detalhes de um anúncio a partir do seu ID (adId) e retornar um objeto AdDetailsForClientDTO contendo as informações.
+    public AdDetailsForClientDTO getAdDetailsByAdId(Long adId) {
+        Optional<Ad> optionalAd = adRepository.findById(adId);
+        AdDetailsForClientDTO adDetailsForClientDTO = new AdDetailsForClientDTO();
+        if (optionalAd.isPresent()) {
+            adDetailsForClientDTO.setAdDTO(optionalAd.get().getAdDto());
+        }
+        return adDetailsForClientDTO;
     }
 }
