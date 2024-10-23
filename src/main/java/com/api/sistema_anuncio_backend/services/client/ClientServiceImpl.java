@@ -15,6 +15,7 @@ import com.api.sistema_anuncio_backend.entity.Reservation;
 import com.api.sistema_anuncio_backend.entity.User;
 import com.api.sistema_anuncio_backend.enums.ReservationStatus;
 import com.api.sistema_anuncio_backend.enums.ReviewStatus;
+import com.api.sistema_anuncio_backend.exception.ResourceNotFoundException;
 import com.api.sistema_anuncio_backend.repository.AdRepository;
 import com.api.sistema_anuncio_backend.repository.ReservationRepository;
 import com.api.sistema_anuncio_backend.repository.UserRepository;
@@ -68,10 +69,15 @@ public class ClientServiceImpl implements ClientService {
     // Este método é responsável por buscar os detalhes de um anúncio a partir do seu ID (adId) e retornar um objeto AdDetailsForClientDTO contendo as informações.
     public AdDetailsForClientDTO getAdDetailsByAdId(Long adId) {
         Optional<Ad> optionalAd = adRepository.findById(adId);
-        AdDetailsForClientDTO adDetailsForClientDTO = new AdDetailsForClientDTO();
-        if (optionalAd.isPresent()) {
-            adDetailsForClientDTO.setAdDTO(optionalAd.get().getAdDto());
+
+        // Se o anúncio não for encontrado, lança uma exceção personalizada
+        if (optionalAd.isEmpty()) {
+            throw new ResourceNotFoundException("Anúncio com o ID " + adId + " não foi encontrado.");
         }
+
+        // Se encontrado, cria e retorna o DTO
+        AdDetailsForClientDTO adDetailsForClientDTO = new AdDetailsForClientDTO();
+        adDetailsForClientDTO.setAdDTO(optionalAd.get().getAdDto());
         return adDetailsForClientDTO;
     }
 }
