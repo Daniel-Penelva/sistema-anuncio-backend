@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.api.sistema_anuncio_backend.dto.AdDTO;
+import com.api.sistema_anuncio_backend.dto.ReservationDTO;
 
 public interface CompanyService {
 
@@ -16,5 +17,7 @@ public interface CompanyService {
     boolean updateAd(Long adId, AdDTO adDTO) throws IOException;
 
     boolean deleteAd(Long adId);
+
+    List<ReservationDTO> getAllAdBookings(Long companyId);
     
 }

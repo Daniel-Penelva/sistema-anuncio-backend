@@ -1,6 +1,7 @@
 package com.api.sistema_anuncio_backend.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.sistema_anuncio_backend.dto.AdDTO;
+import com.api.sistema_anuncio_backend.dto.ReservationDTO;
 import com.api.sistema_anuncio_backend.services.company.CompanyService;
 
 @RestController
@@ -75,5 +77,10 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @GetMapping("/bookings/{companyId}")
+    public ResponseEntity<List<ReservationDTO>> getAllAdBookings(@PathVariable Long companyId) {
+        return ResponseEntity.ok(companyService.getAllAdBookings(companyId));
+    } 
 
 }

@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.sistema_anuncio_backend.dto.AdDTO;
+import com.api.sistema_anuncio_backend.dto.ReservationDTO;
 import com.api.sistema_anuncio_backend.entity.Ad;
+import com.api.sistema_anuncio_backend.entity.Reservation;
 import com.api.sistema_anuncio_backend.entity.User;
 import com.api.sistema_anuncio_backend.repository.AdRepository;
+import com.api.sistema_anuncio_backend.repository.ReservationRepository;
 import com.api.sistema_anuncio_backend.repository.UserRepository;
 
 @Service
@@ -22,6 +25,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
     private AdRepository adRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     // Método que permite a postagem de anúncios (Ads) por um usuário
     public boolean postAd(Long userId, AdDTO adDTO) throws IOException {
@@ -95,6 +101,13 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         return false;
+    }
+
+    public List<ReservationDTO> getAllAdBookings(Long companyId) {
+        return reservationRepository.findAllByCompanyId(companyId)
+                .stream()
+                .map(Reservation::getReservationDTO)
+                .collect(Collectors.toList());
     }
 
 }
