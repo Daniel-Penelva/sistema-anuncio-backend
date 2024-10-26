@@ -2,6 +2,7 @@ package com.api.sistema_anuncio_backend.services.company;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import com.api.sistema_anuncio_backend.dto.ReservationDTO;
 import com.api.sistema_anuncio_backend.entity.Ad;
 import com.api.sistema_anuncio_backend.entity.Reservation;
 import com.api.sistema_anuncio_backend.entity.User;
+import com.api.sistema_anuncio_backend.enums.ReservationStatus;
 import com.api.sistema_anuncio_backend.repository.AdRepository;
 import com.api.sistema_anuncio_backend.repository.ReservationRepository;
 import com.api.sistema_anuncio_backend.repository.UserRepository;
@@ -108,6 +110,25 @@ public class CompanyServiceImpl implements CompanyService {
                 .stream()
                 .map(Reservation::getReservationDTO)
                 .collect(Collectors.toList());
+    }
+
+    public boolean changeBookingStatus(Long bookingId, String status) {
+        
+        Optional<Reservation> optionalReservation = reservationRepository.findById(bookingId);
+
+        if (optionalReservation.isPresent()) {
+            Reservation existingReservation = optionalReservation.get();
+            if(Objects.equals(status, "Approve")) {
+                existingReservation.setReservationStatus(ReservationStatus.APPROVED);
+            } else {
+                existingReservation.setReservationStatus(ReservationStatus.REJECTED);
+            }
+
+            reservationRepository.save(existingReservation);
+            return true;
+        }
+
+        return false;
     }
 
 }

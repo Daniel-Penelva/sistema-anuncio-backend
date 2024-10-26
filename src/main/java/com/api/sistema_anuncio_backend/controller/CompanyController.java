@@ -78,9 +78,17 @@ public class CompanyController {
         }
     }
 
+    // Este método expõe as reservas para uma empresa específica.
     @GetMapping("/bookings/{companyId}")
     public ResponseEntity<List<ReservationDTO>> getAllAdBookings(@PathVariable Long companyId) {
         return ResponseEntity.ok(companyService.getAllAdBookings(companyId));
     } 
+
+    @GetMapping("/booking/{bookingId}/{status}")
+    public ResponseEntity<?> changeBookingStatus(@PathVariable Long bookingId, @PathVariable String status) {
+        boolean success = companyService.changeBookingStatus(bookingId, status);
+        if(success) return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
+    }
 
 }
