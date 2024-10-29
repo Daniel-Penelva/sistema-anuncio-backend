@@ -80,4 +80,9 @@ public class ClientServiceImpl implements ClientService {
         adDetailsForClientDTO.setAdDTO(optionalAd.get().getAdDto());
         return adDetailsForClientDTO;
     }
+
+    // Este método é responsável por buscar todas as reservas do usuário com o Id fornecido.
+    public List<ReservationDTO> getAllBookingsByUserId(Long userId) {
+        return reservationRepository.findAllByUserId(userId).stream().map(Reservation::getReservationDTO).collect(Collectors.toList());
+    }
 }

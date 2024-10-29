@@ -49,4 +49,10 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getAdDetailsByAdId(adId));
     }
 
+    // Método está mapeando para uma rota GET em /bookings/user/{userId}, o {userId} buscar todas as reservas do usuário com o ID fornecido.
+    @GetMapping("/my-bookings/{userId}")
+    public ResponseEntity<?> getAllBookingsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(clientService.getAllBookingsByUserId(userId));
+    }
+
 }

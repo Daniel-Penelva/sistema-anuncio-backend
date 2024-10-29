@@ -15,5 +15,7 @@ public interface ClientService {
     boolean bookService(ReservationDTO reservationDTO);
 
     AdDetailsForClientDTO getAdDetailsByAdId(Long adId);
+
+    List<ReservationDTO> getAllBookingsByUserId(Long userId);
     
 }
