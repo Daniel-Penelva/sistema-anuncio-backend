@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.sistema_anuncio_backend.dto.ReservationDTO;
+import com.api.sistema_anuncio_backend.dto.ReviewDTO;
 import com.api.sistema_anuncio_backend.services.client.ClientService;
 
 @RestController
@@ -53,6 +54,17 @@ public class ClientController {
     @GetMapping("/my-bookings/{userId}")
     public ResponseEntity<?> getAllBookingsByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(clientService.getAllBookingsByUserId(userId));
+    }
+
+    // Método está mapeado com endpoint @PostMapping("/review") que permite que o cliente envie uma avaliação.
+    @PostMapping("/review")
+    public ResponseEntity<?> giveReview(@RequestBody ReviewDTO reviewDTO) {
+        Boolean success = clientService.giveReview(reviewDTO);
+        if (success) {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
 }

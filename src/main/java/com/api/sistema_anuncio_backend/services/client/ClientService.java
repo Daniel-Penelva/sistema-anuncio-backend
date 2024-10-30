@@ -5,6 +5,7 @@ import java.util.List;
 import com.api.sistema_anuncio_backend.dto.AdDTO;
 import com.api.sistema_anuncio_backend.dto.AdDetailsForClientDTO;
 import com.api.sistema_anuncio_backend.dto.ReservationDTO;
+import com.api.sistema_anuncio_backend.dto.ReviewDTO;
 
 public interface ClientService {
 
@@ -17,5 +18,7 @@ public interface ClientService {
     AdDetailsForClientDTO getAdDetailsByAdId(Long adId);
 
     List<ReservationDTO> getAllBookingsByUserId(Long userId);
+
+    Boolean giveReview(ReviewDTO reviewDTO);
     
 }

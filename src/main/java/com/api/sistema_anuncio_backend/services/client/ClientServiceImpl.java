@@ -1,5 +1,6 @@
 package com.api.sistema_anuncio_backend.services.client;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,14 +11,17 @@ import org.springframework.stereotype.Service;
 import com.api.sistema_anuncio_backend.dto.AdDTO;
 import com.api.sistema_anuncio_backend.dto.AdDetailsForClientDTO;
 import com.api.sistema_anuncio_backend.dto.ReservationDTO;
+import com.api.sistema_anuncio_backend.dto.ReviewDTO;
 import com.api.sistema_anuncio_backend.entity.Ad;
 import com.api.sistema_anuncio_backend.entity.Reservation;
+import com.api.sistema_anuncio_backend.entity.Review;
 import com.api.sistema_anuncio_backend.entity.User;
 import com.api.sistema_anuncio_backend.enums.ReservationStatus;
 import com.api.sistema_anuncio_backend.enums.ReviewStatus;
 import com.api.sistema_anuncio_backend.exception.ResourceNotFoundException;
 import com.api.sistema_anuncio_backend.repository.AdRepository;
 import com.api.sistema_anuncio_backend.repository.ReservationRepository;
+import com.api.sistema_anuncio_backend.repository.ReviewRepository;
 import com.api.sistema_anuncio_backend.repository.UserRepository;
 
 @Service
@@ -31,6 +35,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     // Este método recupera todos os anúncios da base de dados utilizando o repositório
     public List<AdDTO> getAllAds() {
@@ -84,5 +91,35 @@ public class ClientServiceImpl implements ClientService {
     // Este método é responsável por buscar todas as reservas do usuário com o Id fornecido.
     public List<ReservationDTO> getAllBookingsByUserId(Long userId) {
         return reservationRepository.findAllByUserId(userId).stream().map(Reservation::getReservationDTO).collect(Collectors.toList());
+    }
+
+    // Este método é responsável para que um usuário envie uma avaliação (Review) relacionada a uma reserva (Reservation) e um anúncio (Ad).
+    public Boolean giveReview(ReviewDTO reviewDTO) {
+        
+        Optional<User> optionalUser = userRepository.findById(reviewDTO.getUserId());
+        Optional<Reservation> optionalBooking = reservationRepository.findById(reviewDTO.getBookId());
+
+        if(optionalUser.isPresent() && optionalBooking.isPresent()) {
+
+            Review review = new Review();
+            
+            review.setReviewDate(new Date());
+            review.setReview(reviewDTO.getReview());
+            review.setRating(reviewDTO.getRating());
+            
+            review.setUser(optionalUser.get());
+            review.setAd(optionalBooking.get().getAd());
+
+            reviewRepository.save(review);
+
+            Reservation booking = optionalBooking.get();
+            booking.setReviewStatus(ReviewStatus.TRUE);
+
+            reservationRepository.save(booking);
+
+            return true;
+        }
+
+        return false;
     }
 }
