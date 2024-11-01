@@ -5,6 +5,8 @@ import java.util.Date;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.api.sistema_anuncio_backend.dto.ReviewDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +39,21 @@ public class Review {
     @JoinColumn(name = "ad_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Ad ad;
+
+    public ReviewDTO getDto() {
+        ReviewDTO reviewDTO = new ReviewDTO();
+
+        reviewDTO.setId(id);
+        reviewDTO.setReview(review);
+        reviewDTO.setRating(rating);
+        reviewDTO.setReviewDate(reviewDate);
+        reviewDTO.setUserId(user.getId());
+        reviewDTO.setClientName(user.getName());
+        reviewDTO.setAdId(ad.getId());
+        reviewDTO.setServiceName(ad.getServiceName());
+
+        return reviewDTO;
+    }
 
 }
 

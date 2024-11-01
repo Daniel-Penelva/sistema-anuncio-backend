@@ -75,6 +75,7 @@ public class ClientServiceImpl implements ClientService {
 
     // Este método é responsável por buscar os detalhes de um anúncio a partir do seu ID (adId) e retornar um objeto AdDetailsForClientDTO contendo as informações.
     public AdDetailsForClientDTO getAdDetailsByAdId(Long adId) {
+        
         Optional<Ad> optionalAd = adRepository.findById(adId);
 
         // Se o anúncio não for encontrado, lança uma exceção personalizada
@@ -85,6 +86,10 @@ public class ClientServiceImpl implements ClientService {
         // Se encontrado, cria e retorna o DTO
         AdDetailsForClientDTO adDetailsForClientDTO = new AdDetailsForClientDTO();
         adDetailsForClientDTO.setAdDTO(optionalAd.get().getAdDto());
+        
+        List<Review> reviewList = reviewRepository.findAllByAdId(adId);                                                // Usa o repositório ReviewRepository para buscar todas as avaliações associadas ao anúncio com o adId fornecido.
+        adDetailsForClientDTO.setReviewDTOList(reviewList.stream().map(Review::getDto).collect(Collectors.toList()));  // Converte a lista de objetos Review em uma lista de ReviewDTO e define essa lista na propriedade reviewDTOList de adDetailsForClientDTO.
+        
         return adDetailsForClientDTO;
     }
 
