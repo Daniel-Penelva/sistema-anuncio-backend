@@ -21,21 +21,12 @@ import java.util.HashMap;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class SimpleCorsFilter implements Filter {
 
+    // private final String clientAppUrl = "http://localhost:4200/*";
+    private final String clientAppUrl = "https://sistemadeanuncio.netlify.app/";
+    
     // Construtor SimpleCorsFilter
     public SimpleCorsFilter(){
     }
-
-    /**
-     * Método Filter para adicionar todos os cabeçalhos necessários à resposta.
-     *
-     *
-     * @param req servlet request.
-     * @param res servlet response.
-     * @param chain cadeia de filtros para adicionar este novo filtro.
-     * @throws IOException on filtering.
-     * @throws ServletException on filtering.
-     */
-
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
