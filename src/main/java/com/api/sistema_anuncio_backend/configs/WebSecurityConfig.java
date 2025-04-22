@@ -40,6 +40,10 @@ public class WebSecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
+        // Log para saber se o método foi executado
+        System.out.println("CORS ativo!");
+        
         return source;
     }
 
