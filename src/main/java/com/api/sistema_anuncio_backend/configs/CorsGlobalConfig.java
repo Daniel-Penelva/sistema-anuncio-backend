@@ -12,7 +12,8 @@ public class CorsGlobalConfig implements WebMvcConfigurer{
         registry.addMapping("/**")
             .allowedOrigins("https://sistemadeanuncio.netlify.app")
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-            .allowedHeaders("*")
+            .allowedHeaders("Authorization", "Content-Type", "X-Requested-With")
+            .exposedHeaders("Authorization") // opcional, se quiser expor headers para o front
             .allowCredentials(true);
     }
 }

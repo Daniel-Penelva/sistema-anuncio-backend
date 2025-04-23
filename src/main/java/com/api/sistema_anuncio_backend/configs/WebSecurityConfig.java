@@ -35,18 +35,23 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("https://sistemadeanuncio.netlify.app"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // Se estiver usando cookies/autenticação
+        
+        // aqui os headers permitidos explicitamente
+        configuration.setAllowedHeaders(List.of(
+            "Authorization",
+            "Content-Type",
+            "X-Requested-With"
+        ));
+
+        // garantir que o frontend veja os headers personalizados também
+        configuration.setExposedHeaders(List.of("Authorization"));
+
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
-        // Log para saber se o método foi executado
-        System.out.println("CORS ativo!");
-        
         return source;
     }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
