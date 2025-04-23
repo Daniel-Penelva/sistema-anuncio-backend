@@ -1,4 +1,4 @@
-/*
+
 package com.api.sistema_anuncio_backend.configs;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.HashMap;
 public class SimpleCorsFilter implements Filter {
 
     // private final String clientAppUrl = "http://localhost:4200/*";
-    private final String clientAppUrl = "https://sistemadeanuncio.netlify.app/";
+    private final String clientAppUrl = "https://sistemadeanuncio.netlify.app";
     
     // Construtor SimpleCorsFilter
     public SimpleCorsFilter(){
@@ -41,9 +41,9 @@ public class SimpleCorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         Map<String, String> map = new HashMap<>();
         
-        String originHeader = request.getHeader("origin");
+        //String originHeader = request.getHeader("origin");
         
-        response.setHeader("Access-Control-Allow-Origin", originHeader);
+        response.setHeader("Access-Control-Allow-Origin", clientAppUrl);
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, Content-Type, Authorization");
@@ -60,4 +60,3 @@ public class SimpleCorsFilter implements Filter {
         Filter.super.destroy();
     }
 }
-*/
