@@ -1,3 +1,4 @@
+/*
 package com.api.sistema_anuncio_backend.configs;
 
 import org.springframework.context.annotation.Configuration;
@@ -17,3 +18,4 @@ public class CorsGlobalConfig implements WebMvcConfigurer{
             .allowCredentials(true);
     }
 }
+*/

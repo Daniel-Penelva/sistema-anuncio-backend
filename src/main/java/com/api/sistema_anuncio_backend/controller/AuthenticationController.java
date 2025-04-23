@@ -11,7 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +27,9 @@ import com.api.sistema_anuncio_backend.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletResponse;
 
+
+//@CrossOrigin(origins = "https://sistemadeanuncio.netlify.app", allowCredentials = "true")
 @RestController
-@CrossOrigin(origins = "https://sistemadeanuncio.netlify.app", allowCredentials = "true")
 public class AuthenticationController {
 
     @Autowired
@@ -82,28 +83,24 @@ public class AuthenticationController {
     public void createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest,
             HttpServletResponse response) throws IOException, JSONException {
 
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-        } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Incorrect username or password", e);
-        }
-
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
-        User user = userRepository.findFirstByEmail(authenticationRequest.getUsername());
-
-        response.getWriter().write(new JSONObject()
-                .put("userId", user.getId())
-                .put("role", user.getRole())
-                .toString());
-
-        response.addHeader("Access-Control-Expose-Headers", "Authorization");
-        response.addHeader("Access-Control-Allow-Headers",
-                "Authorization," + " X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header");
-
-        response.addHeader(HEADER_STRING, TOKEN_PREFIX + jwt);
+                try {
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                            authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+                } catch (BadCredentialsException e) {
+                    throw new BadCredentialsException("Incorrect username or password", e);
+                }
+            
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+                final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+                User user = userRepository.findFirstByEmail(authenticationRequest.getUsername());
+            
+                response.addHeader("Access-Control-Expose-Headers", "Authorization");
+                response.addHeader("Authorization", "Bearer " + jwt);
+            
+                response.getWriter().write(new JSONObject()
+                        .put("userId", user.getId())
+                        .put("role", user.getRole())
+                        .toString());
 
     }
 

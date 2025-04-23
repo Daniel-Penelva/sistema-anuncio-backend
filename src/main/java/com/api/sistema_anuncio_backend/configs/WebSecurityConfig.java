@@ -33,8 +33,12 @@ public class WebSecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        
+        final String clientAppUrl = "https://sistemadeanuncio.netlify.app";
+
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://sistemadeanuncio.netlify.app"));
+        configuration.setAllowedOrigins(List.of(clientAppUrl)); // aqui adiciona os domínios permitidos
+        configuration.setAllowCredentials(true); // permite credenciais (cookies, autenticação HTTP básica, etc.)
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         
         // aqui os headers permitidos explicitamente
