@@ -30,6 +30,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return; // Importante: sair do filtro para não processar o token
+        }
+
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
