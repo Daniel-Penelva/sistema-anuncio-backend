@@ -1,4 +1,4 @@
-
+/*
 package com.api.sistema_anuncio_backend.configs;
 
 import java.io.IOException;
@@ -60,3 +60,4 @@ public class SimpleCorsFilter implements Filter {
         Filter.super.destroy();
     }
 }
+*/
