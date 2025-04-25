@@ -34,37 +34,33 @@ public class WebSecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        
+
         final String clientAppUrl = "https://sistemadeanuncio.netlify.app";
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(clientAppUrl)); // aqui adiciona os domínios permitidos
-        configuration.setAllowCredentials(true); // permite credenciais (cookies, autenticação HTTP básica, etc.)
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        
-        // aqui os headers permitidos explicitamente
-        configuration.setAllowedHeaders(List.of(
-            "Authorization",
-            "Content-Type",
-            "X-Requested-With"
-        ));
-
-        // garantir que o frontend veja os headers personalizados também
-        configuration.setExposedHeaders(List.of("Authorization"));
-
+        configuration.setAllowedOrigins(List.of(clientAppUrl));
         configuration.setAllowCredentials(true);
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of(
+                "Authorization",
+                "Content-Type",
+                "X-Requested-With"
+        ));
+        configuration.setExposedHeaders(List.of("Authorization")); // Expondo o cabeçalho Authorization para o cliente
+        configuration.setMaxAge(3600L); // 1 hora em segundos
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // Aplicando a configuração CORS a todas as rotas
         return source;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf().disable()
                 .authorizeHttpRequests()
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // libera o OPTIONS
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/authenticate", "/company/sign-up", "/client/sign-up", "/ads", "/search/{service}").permitAll()
                     .anyRequest().authenticated()
                 .and()
