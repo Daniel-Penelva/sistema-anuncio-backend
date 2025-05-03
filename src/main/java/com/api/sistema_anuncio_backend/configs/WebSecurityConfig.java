@@ -14,15 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.api.sistema_anuncio_backend.services.jwt.JwtRequestFilter;
-
-//import static org.springframework.security.config.Customizer.withDefaults;  // importado manualmente para evitar conflitos com o método cors()
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +25,7 @@ public class WebSecurityConfig {
     @Autowired
     private JwtRequestFilter requestFilter;
 
+/*
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
@@ -53,11 +47,12 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", configuration); // Aplicando a configuração CORS a todas as rotas
         return source;
     }
+*/
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> {})      // sem argumentos, só para habilitar
                 .csrf().disable()
                 .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
